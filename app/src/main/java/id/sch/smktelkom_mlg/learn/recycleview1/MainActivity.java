@@ -1,13 +1,59 @@
 package id.sch.smktelkom_mlg.learn.recycleview1;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+import id.sch.smktelkom_mlg.learn.recycleview1.adapter.HotelAdapter;
+import id.sch.smktelkom_mlg.learn.recycleview1.model.Hotel;
+
+public class MainActivity extends AppCompatActivity
+{
+    ArrayList<Hotel> mlist = new ArrayList<>();
+    HotelAdapter mAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        mAdapter = new HotelAdapter(mlist);
+        recyclerView.setAdapter(mAdapter);
+
+        fillData();
+    }
+
+    private void fillData()
+    {
+        Resources resources = getResources();
+
+        String [] arJudul = resources.getStringArray(R.array.places);
+        String [] arDeskripsi = resources.getStringArray(R.array.place_desc);
+        TypedArray a =resources.obtainTypedArray(R.array.places_picture);
+        Drawable [] arfoto = new Drawable[a.length()];
+
+            for (int i = 0; i < arfoto.length; i++)
+            {
+                arfoto[i] = a.getDrawable(i);
+            }
+
+                a.recycle();
+
+            for (int i = 0; i < arJudul.length; i++)
+            {
+                mlist.add( new Hotel (arJudul[i],arDeskripsi[i],arfoto[i]));
+            }
+
+                mAdapter.notifyDataSetChanged();
     }
 }
