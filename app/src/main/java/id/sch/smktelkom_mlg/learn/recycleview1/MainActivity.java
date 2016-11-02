@@ -2,8 +2,11 @@ package id.sch.smktelkom_mlg.learn.recycleview1;
 
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,7 +47,10 @@ public class MainActivity extends AppCompatActivity
 
             for (int i = 0; i < arfoto.length; i++)
             {
-                arfoto[i] = a.getDrawable(i);
+                BitmapDrawable bd = (BitmapDrawable) a.getDrawable(i);
+                RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(),bd.getBitmap());
+                rbd.setCircular(true);
+                arfoto[i] = rbd;
             }
 
                 a.recycle();
